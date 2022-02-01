@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:TravelRecordApp.ViewModel"
+    x:Class="TravelRecordApp.NewTravelPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <vm:NewTravelVM x:Key="vm"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save"
+                     BindingContext="{StaticResource vm}"
+                     Command="{Binding SaveCommand}"
+                     CommandParameter="{Binding PostIsReady}"
+                     IconImageSource="save.png"/>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <StackLayout Margin="15,15,15,0"
+                     BindingContext="{StaticResource vm}">
+            <Entry x:Name="experienceEntry"
+                   Text="{Binding Experience}"
+                   Placeholder="Write your experience"/>
+            <ListView x:Name="venueListView"
+                      ItemsSource="{Binding Venues}"
+                      SelectedItem="{Binding SelectedVenue}"
+                      HorizontalOptions="FillAndExpand">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Label Text="{Binding name}"
+                                       FontAttributes="Bold"/>
+                                <Label Grid.Row="1"
+                                       Text="{Binding location.address}"
+                                       TextColor="{StaticResource blueColor}"/>
+                                <Label Grid.Row="0"
+                                       Grid.Column="1"
+                                       Text="{Binding location.distance, StringFormat='{0} meters'}"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
